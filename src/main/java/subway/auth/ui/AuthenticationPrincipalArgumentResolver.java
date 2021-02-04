@@ -9,14 +9,10 @@ import subway.auth.application.AuthService;
 import subway.auth.domain.AuthenticationPrincipal;
 import subway.auth.infrastructure.AuthorizationExtractor;
 import subway.member.application.MemberService;
-import subway.member.dao.MemberDao;
 import subway.member.domain.LoginMember;
 import subway.member.domain.Member;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 
 public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArgumentResolver {
     private MemberService memberService;
@@ -37,9 +33,8 @@ public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArg
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         try{
             String token = AuthorizationExtractor.extract((HttpServletRequest) webRequest.getNativeRequest());
-            Member member = memberService.getMemberByToken(token);
-            LoginMember loginMember = new LoginMember(member.getId(), member.getEmail(), member.getAge());
-            return loginMember;
+            Member member = authService.getLoginMemberByToken(token);
+            return new LoginMember(member.getId(), member.getEmail(), member.getAge());
         }catch (Exception e){
             return null;
         }

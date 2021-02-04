@@ -39,7 +39,6 @@ class PathTest {
         lines.add(l1);
         lines.add(l2);
         path = new Path(lines);
-        path.initPath(lines);
     }
 
     @DisplayName("최소 길이를 가지는 최적 경로를 구하는지 확인하는 테스트")

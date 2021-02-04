@@ -29,6 +29,7 @@ public class AuthService {
             throw new LoginFailException();
         }
         String accessToken = jwtTokenProvider.createToken(tokenRequest.getEmail());
+        cache.put(accessToken, memberDao.findByEmail(tokenRequest.getEmail()));
         return new TokenResponse(accessToken);
     }
 
@@ -36,21 +37,13 @@ public class AuthService {
         Member member = memberDao.findByEmail(email);
         return member != null && member.getPassword().equals(password);
     }
-    public String getPayLoad(String token){
-        return jwtTokenProvider.getPayload(token);
-    }
 
     public void validateToken(String accessToken) {
         if(accessToken == null || !jwtTokenProvider.validateToken(accessToken))
             throw new InvalidTokenException();
     }
 
-    public void putLoginMember(String key, Member value){
-        validateToken(key);
-        cache.put(key, value);
-    }
-
-    public Member getLoginMember(String key){
-        return cache.containsKey(key) ? cache.get(key) : null;
+    public Member getLoginMemberByToken(String key){
+        return cache.getOrDefault(key, null);
     }
 }

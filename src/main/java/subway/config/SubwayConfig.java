@@ -24,6 +24,7 @@ public class SubwayConfig implements WebMvcConfigurer {
 
     @Bean
     public Path path(LineDao lineDao){
-        return new Path(lineDao.findAll());
+        Path path = new Path(lineDao.findAll());
+        return path;
     }
 }

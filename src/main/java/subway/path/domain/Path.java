@@ -30,8 +30,8 @@ public class Path {
         this.lines = lines;
     }
 
-    public void initPath(List<Line> lineParam){
-        lines = lineParam;
+    public void initPath(List<Line> lines){
+        this.lines = lines;
         List<Station> stations = new ArrayList<>();
         lines.stream().map(Line::getStations).forEach(stations::addAll);
         this.pathVertices = PathVertices.from(stations.stream().distinct().collect(Collectors.toList()));

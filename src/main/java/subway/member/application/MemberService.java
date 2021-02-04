@@ -16,11 +16,9 @@ import java.util.Optional;
 
 @Service
 public class MemberService {
-    private AuthService authService;
     private MemberDao memberDao;
 
-    public MemberService(AuthService authService, MemberDao memberDao) {
-        this.authService = authService;
+    public MemberService(MemberDao memberDao) {
         this.memberDao = memberDao;
     }
 
@@ -33,16 +31,6 @@ public class MemberService {
     public MemberResponse findMember(Long id) {
         Member member = memberDao.findById(id);
         return MemberResponse.of(member);
-    }
-
-    public Member getMemberByToken(String token){
-        authService.validateToken(token);
-        Member member = authService.getLoginMember(token);
-        if(member == null){
-            member = memberDao.findByEmail(authService.getPayLoad(token));
-            authService.putLoginMember(token, member);
-        }
-        return member;
     }
 
     public MemberResponse findMemberByEmail(String email){
