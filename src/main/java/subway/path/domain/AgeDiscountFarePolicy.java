@@ -23,10 +23,6 @@ public class AgeDiscountFarePolicy {
             fare = (int) ((fare - 350) * 0.8) + 350;
         }
 
-        if(age >= TEEN_UPPER_BOUND){
-            fare = fare;
-        }
-
         return fare;
     }
 }
