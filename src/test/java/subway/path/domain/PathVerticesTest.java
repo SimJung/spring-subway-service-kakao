@@ -40,10 +40,4 @@ class PathVerticesTest {
         assertThat(pathVertices.getPathVertexList()).containsExactly(v1, v2);
         assertThat(pathVertices.getPathVertexByStation(s1)).isEqualTo(v1);
     }
-
-    @DisplayName("노선별 추가요금 확인")
-    @Test
-    void extraFareTest(){
-        assertThat(pathVertices.getExtraFareList(Arrays.asList(l1))).containsExactly(300);
-    }
 }

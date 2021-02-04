@@ -33,28 +33,4 @@ public class PathVertices {
                 .findFirst()
                 .orElse(null);
     }
-
-    public List<Integer> getExtraFareList(List<Line> lines) {
-        List<Line> passingLine = new ArrayList<>();
-        Station prevStation = null;
-        Station nextStation = null;
-        for(PathVertex pathVertex : pathVertices){
-            prevStation = nextStation;
-            nextStation = pathVertex.getStation();
-            if(prevStation == null) continue;
-
-            passingLine.add(getLineBySection(lines, prevStation, nextStation));
-        }
-        return passingLine.stream()
-                .filter(Objects::nonNull)
-                .map(Line::getExtraFare)
-                .collect(Collectors.toList());
-    }
-
-    private Line getLineBySection(List<Line> lines, final Station prev, final Station next){
-        return lines.stream()
-                .filter(line -> line.hasSectionByStations(prev, next))
-                .findFirst()
-                .orElse(null);
-    }
 }

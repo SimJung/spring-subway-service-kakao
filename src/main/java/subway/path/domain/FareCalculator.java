@@ -17,9 +17,9 @@ public class FareCalculator {
         fareDiscount = new AgeDiscountFarePolicy();
     }
 
-    public Fare calculate(PathResult result, List<Integer> extraFares, Integer age){
+    public Fare calculate(PathResult result, List<Line> lines, Integer age){
         int basicFare = distanceFarePolicy.apply(result.getDistance());
-        int extraFare = lineExtraFarePolicy.apply(extraFares);
+        int extraFare = lineExtraFarePolicy.apply(result.getPathVertices(), lines);
 
         return new Fare(fareDiscount.apply(basicFare + extraFare, age));
     }
